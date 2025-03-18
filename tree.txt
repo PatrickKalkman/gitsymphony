@@ -1,0 +1,22 @@
+.
+├── LICENSE
+├── README.md
+├── gource_logs
+│   └── pytorch.log
+├── pyproject.toml
+├── specs
+│   ├── prompt.txt
+│   └── spec.md
+├── src
+│   └── gitsymphony
+│       ├── __init__.py
+│       ├── audio_processing.py
+│       ├── gource_audio_mapper.py
+│       ├── grouping.py
+│       ├── mapping.py
+│       └── parser.py
+├── start.sh
+├── tree.txt
+└── uv.lock
+
+5 directories, 15 files

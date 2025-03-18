@@ -4,10 +4,10 @@ from datetime import datetime
 
 import typer
 
-from audio_processing import process_audio
-from grouping import group_events
-from mapping import map_events
-from parser import parse_log_file
+from gitsymphony.audio_processing import process_audio
+from gitsymphony.grouping import group_events
+from gitsymphony.mapping import map_events
+from gitsymphony.parser import parse_log_file
 
 app = typer.Typer()
 
@@ -29,15 +29,11 @@ def main(
     config: str = typer.Option(..., help="Path to the JSON configuration file"),
     output: str = typer.Option(..., help="Output directory for logs and WAV file"),
     verbose: bool = typer.Option(False, help="Enable detailed logging"),
-    dry_run: bool = typer.Option(
-        False, help="Process log without writing output files"
-    ),
+    dry_run: bool = typer.Option(False, help="Process log without writing output files"),
 ):
     # Setup logging
     log_level = logging.DEBUG if verbose else logging.INFO
-    logging.basicConfig(
-        level=log_level, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=log_level, format="%(asctime)s - %(levelname)s - %(message)s")
 
     # Load and validate configuration
     try:
@@ -68,9 +64,7 @@ def main(
     mapping_log = f"{output}/{input.rsplit('/', 1)[-1]}_mapping_{timestamp}.log"
 
     write_intermediate_log(grouped_events, grouping_log)
-    write_intermediate_log(
-        mapped_events, mapping_log
-    )  # Use appropriate writer for mapping log
+    write_intermediate_log(mapped_events, mapping_log)  # Use appropriate writer for mapping log
 
     # Audio processing (only if not a dry run)
     if not dry_run:
