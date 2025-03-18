@@ -58,7 +58,7 @@ def process_audio(
             logging.info(f"Effective scaling factor: {effective_scaling_factor}")
             
             # Calculate the scaled duration in milliseconds
-            scaled_duration_ms = duration_seconds * effective_scaling_factor * 1000
+            scaled_duration_ms = gource_duration_seconds * 1000
             logging.info(f"Scaled audio duration: {scaled_duration_ms:.2f} ms ({scaled_duration_ms/1000:.2f} seconds)")
             
             # Create a silent base audio track with appropriate length
