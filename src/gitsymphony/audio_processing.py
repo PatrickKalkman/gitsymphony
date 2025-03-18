@@ -40,8 +40,17 @@ def process_audio(
             duration_seconds = last_timestamp - first_timestamp
             logging.info(f"Total timeline duration: {duration_seconds} seconds")
             
+            # Calculate a dynamic scaling factor to keep audio length reasonable (target ~60 seconds)
+            target_duration_ms = 60000  # 60 seconds in milliseconds
+            dynamic_scaling_factor = target_duration_ms / (duration_seconds * 1000)
+            
+            # Use the smaller of the provided scaling factor or the dynamic one
+            effective_scaling_factor = min(scaling_factor, dynamic_scaling_factor)
+            logging.info(f"Original scaling factor: {scaling_factor}, Dynamic scaling factor: {dynamic_scaling_factor}")
+            logging.info(f"Using effective scaling factor: {effective_scaling_factor}")
+            
             # Calculate the scaled duration in milliseconds
-            scaled_duration_ms = duration_seconds * scaling_factor * 1000
+            scaled_duration_ms = duration_seconds * effective_scaling_factor * 1000
             logging.info(f"Scaled audio duration: {scaled_duration_ms} ms")
             
             # Create a silent base audio track with appropriate length
@@ -58,7 +67,7 @@ def process_audio(
         # Calculate the placement time in milliseconds (scaled)
         # Normalize the timestamp relative to the first event before scaling
         relative_timestamp = event["timestamp"] - first_timestamp
-        place_time = int(relative_timestamp * scaling_factor * 1000)
+        place_time = int(relative_timestamp * effective_scaling_factor * 1000)
         sound_path = f"{sound_folder}/{event['sound_file']}"
         
         logging.debug("Processing event at time %d ms with sound file: %s", place_time, sound_path)
