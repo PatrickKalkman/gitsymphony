@@ -174,3 +174,4 @@ cython_debug/
 .pypirc
 .aider*
 Specs
+.DS_Store
