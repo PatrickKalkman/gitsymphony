@@ -7,15 +7,15 @@
         "actions": [
             {
                 "pattern": "A",
-                "sound_file": "add.wav"
+                "sound_file": "swoosh.wav"
             },
             {
                 "pattern": "M",
-                "sound_file": "modify.wav"
+                "sound_file": "explosion3.wav"
             },
             {
                 "pattern": "D",
-                "sound_file": "delete.wav"
+                "sound_file": "explosion1.wav"
             }
         ]
     }
