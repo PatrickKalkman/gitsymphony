@@ -23,21 +23,25 @@ def write_intermediate_log(data, filepath: str):
     logging.info("Intermediate log written: %s", filepath)
 
 
-@app.command()
-def main(
-    input: str = typer.Argument(..., help="Path to the Gource log file"),
-    config: str = typer.Argument(..., help="Path to the JSON configuration file"),
-    output: str = typer.Argument(..., help="Output directory for logs and WAV file"),
-    verbose: bool = typer.Option(False, help="Enable detailed logging"),
-    dry_run: bool = typer.Option(False, help="Process log without writing output files"),
-):
-    # Setup logging
-    log_level = logging.DEBUG if verbose else logging.INFO
-    logging.basicConfig(level=log_level, format="%(asctime)s - %(levelname)s - %(message)s")
+def main():
+    """Process a Gource log file and generate audio based on git events."""
+    app_inner = typer.Typer()
+    
+    @app_inner.command()
+    def process(
+        input: str = typer.Argument(..., help="Path to the Gource log file"),
+        config: str = typer.Argument(..., help="Path to the JSON configuration file"),
+        output: str = typer.Argument(..., help="Output directory for logs and WAV file"),
+        verbose: bool = typer.Option(False, help="Enable detailed logging"),
+        dry_run: bool = typer.Option(False, help="Process log without writing output files"),
+    ):
+        # Setup logging
+        log_level = logging.DEBUG if verbose else logging.INFO
+        logging.basicConfig(level=log_level, format="%(asctime)s - %(levelname)s - %(message)s")
 
-    # Load and validate configuration
-    try:
-        with open(config, "r") as cfg_file:
+        # Load and validate configuration
+        try:
+            with open(config, "r") as cfg_file:
             cfg = json.load(cfg_file)
     except Exception as e:
         logging.error("Error reading configuration: %s", e)
@@ -77,5 +81,7 @@ def main(
         )
 
 
+    return app_inner()
+
 if __name__ == "__main__":
-    app()
+    main()
