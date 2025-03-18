@@ -44,7 +44,5 @@ def map_events(
             deduped[ts] = event
 
     result = list(deduped.values())
-    logging.info(
-        "Mapped %d groups to %d sound events", len(grouped_events), len(result)
-    )
+    logging.info("Mapped %d groups to %d sound events", len(grouped_events), len(result))
     return result
