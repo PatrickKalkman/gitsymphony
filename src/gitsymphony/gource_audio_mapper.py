@@ -73,8 +73,9 @@ def main():
 
         # Audio processing (only if not a dry run)
         if not dry_run:
-            # Get target duration from config or use default
+            # Get target duration and seconds per day from config or use defaults
             target_duration = cfg.get("target_audio_duration_seconds", 60)
+            seconds_per_day = cfg.get("seconds_per_day", 0.01)
             process_audio(
                 mapped_events,
                 scaling_factor=cfg["timeline_scaling_factor"],
@@ -82,6 +83,7 @@ def main():
                 output=output,
                 input_basename=input.rsplit("/", 1)[-1],
                 target_duration_seconds=target_duration,
+                seconds_per_day=seconds_per_day,
             )
 
 

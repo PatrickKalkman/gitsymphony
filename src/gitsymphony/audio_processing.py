@@ -12,6 +12,7 @@ def process_audio(
     output: str,
     input_basename: str,
     target_duration_seconds: int = 60,
+    seconds_per_day: float = 0.01,
 ):
     """
     Create an audio track by placing sound clips at scaled timestamps.
@@ -41,14 +42,25 @@ def process_audio(
             duration_seconds = last_timestamp - first_timestamp
             logging.info(f"Total timeline duration: {duration_seconds} seconds")
             
+            # Calculate duration in days and then in Gource seconds
+            duration_days = duration_seconds / (24*60*60)
+            gource_duration_seconds = duration_days * seconds_per_day
+            logging.info(f"Duration in days: {duration_days:.2f}")
+            logging.info(f"Gource duration at {seconds_per_day} seconds per day: {gource_duration_seconds:.2f} seconds")
+            
             # Calculate a dynamic scaling factor to keep audio length reasonable
             target_duration_ms = target_duration_seconds * 1000
             logging.info(f"Target audio duration: {target_duration_seconds} seconds")
-            dynamic_scaling_factor = target_duration_ms / (duration_seconds * 1000)
             
-            # Verify the calculation
-            logging.info(f"Duration in seconds: {duration_seconds}")
-            logging.info(f"Duration in days: {duration_seconds / (24*60*60):.2f}")
+            # Use the Gource duration for scaling if specified
+            if seconds_per_day > 0:
+                # Scale based on Gource duration
+                scaling_ratio = target_duration_seconds / gource_duration_seconds
+                dynamic_scaling_factor = scaling_ratio / 1000  # Convert to ms scale
+                logging.info(f"Using Gource-based scaling with ratio: {scaling_ratio:.4f}")
+            else:
+                # Fallback to original calculation
+                dynamic_scaling_factor = target_duration_ms / (duration_seconds * 1000)
             
             # Use the smaller of the provided scaling factor or the dynamic one
             effective_scaling_factor = min(scaling_factor, dynamic_scaling_factor)
