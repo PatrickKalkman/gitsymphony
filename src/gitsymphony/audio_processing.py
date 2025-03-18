@@ -7,7 +7,6 @@ from pydub import AudioSegment
 
 def process_audio(
     mapped_events: List[Dict[str, Any]],
-    scaling_factor: float,
     sound_folder: str,
     output: str,
     input_basename: str,
@@ -52,20 +51,11 @@ def process_audio(
             target_duration_ms = target_duration_seconds * 1000
             logging.info(f"Target audio duration: {target_duration_seconds} seconds")
             
-            # Use the Gource duration for scaling if specified
-            if seconds_per_day > 0:
-                # Scale based on Gource duration
-                scaling_ratio = target_duration_seconds / gource_duration_seconds
-                dynamic_scaling_factor = scaling_ratio / 1000  # Convert to ms scale
-                logging.info(f"Using Gource-based scaling with ratio: {scaling_ratio:.4f}")
-            else:
-                # Fallback to original calculation
-                dynamic_scaling_factor = target_duration_ms / (duration_seconds * 1000)
-            
-            # Use the smaller of the provided scaling factor or the dynamic one
-            effective_scaling_factor = min(scaling_factor, dynamic_scaling_factor)
-            logging.info(f"Original scaling factor: {scaling_factor}, Dynamic scaling factor: {dynamic_scaling_factor}")
-            logging.info(f"Using effective scaling factor: {effective_scaling_factor}")
+            # Calculate scaling factor based on Gource duration
+            scaling_ratio = target_duration_seconds / gource_duration_seconds
+            effective_scaling_factor = scaling_ratio / 1000  # Convert to ms scale
+            logging.info(f"Using Gource-based scaling with ratio: {scaling_ratio:.4f}")
+            logging.info(f"Effective scaling factor: {effective_scaling_factor}")
             
             # Calculate the scaled duration in milliseconds
             scaled_duration_ms = duration_seconds * effective_scaling_factor * 1000

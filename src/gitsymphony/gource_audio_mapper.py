@@ -48,7 +48,6 @@ def main():
             raise
 
         for key in [
-            "timeline_scaling_factor",
             "grouping_window",
             "sound_files_folder",
             "mapping_rules",
@@ -78,7 +77,6 @@ def main():
             seconds_per_day = cfg.get("seconds_per_day", 0.01)
             process_audio(
                 mapped_events,
-                scaling_factor=cfg["timeline_scaling_factor"],
                 sound_folder=cfg["sound_files_folder"],
                 output=output,
                 input_basename=input.rsplit("/", 1)[-1],
