@@ -28,13 +28,23 @@ def process_audio(
     if not mapped_events:
         logging.warning("No mapped events to process, skipping audio generation")
         return
-    # Create a silent base audio track; length can be computed based on max scaled timestamp.
-    try:
-        max_time = (
-            max(e["timestamp"] for e in mapped_events) * scaling_factor * 1000
-        )  # in ms
-        logging.info("Creating silent base track with duration: %d ms", max_time + 1000)
-        final_track = AudioSegment.silent(duration=max_time + 1000)  # extra buffer
+        
+    # Normalize timestamps relative to the first event
+    if mapped_events:
+        first_timestamp = min(e["timestamp"] for e in mapped_events)
+        logging.info(f"Normalizing timestamps relative to first event at {first_timestamp}")
+        
+        # Calculate the total duration in seconds from first to last event
+        last_timestamp = max(e["timestamp"] for e in mapped_events)
+        duration_seconds = last_timestamp - first_timestamp
+        logging.info(f"Total timeline duration: {duration_seconds} seconds")
+        
+        # Calculate the scaled duration in milliseconds
+        scaled_duration_ms = duration_seconds * scaling_factor * 1000
+        logging.info(f"Scaled audio duration: {scaled_duration_ms} ms")
+        
+        # Create a silent base audio track with appropriate length
+        final_track = AudioSegment.silent(duration=scaled_duration_ms + 1000)  # extra buffer
     except Exception as e:
         logging.error("Failed to create base audio track: %s", e)
         return
@@ -45,7 +55,9 @@ def process_audio(
     
     for event in mapped_events:
         # Calculate the placement time in milliseconds (scaled)
-        place_time = int(event["timestamp"] * scaling_factor * 1000)
+        # Normalize the timestamp relative to the first event before scaling
+        relative_timestamp = event["timestamp"] - first_timestamp
+        place_time = int(relative_timestamp * scaling_factor * 1000)
         sound_path = f"{sound_folder}/{event['sound_file']}"
         
         logging.debug("Processing event at time %d ms with sound file: %s", place_time, sound_path)
