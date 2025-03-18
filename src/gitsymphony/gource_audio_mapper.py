@@ -39,8 +39,19 @@ def main(
     try:
         # Handle cases where config might be Ellipsis or OptionInfo
         if config is ...:
-            raise ValueError("Configuration file path is required")
-        config_path = config if isinstance(config, str) else str(config.default)
+            typer.echo("Error: Configuration file path is required")
+            raise typer.Exit(1)
+        
+        # If config is a string, use it directly
+        if isinstance(config, str):
+            config_path = config
+        # Otherwise, it's likely an OptionInfo object with a default
+        elif hasattr(config, "default") and config.default is not ...:
+            config_path = str(config.default)
+        else:
+            typer.echo("Error: Invalid configuration file path")
+            raise typer.Exit(1)
+            
         with open(config_path, "r") as cfg_file:
             cfg = json.load(cfg_file)
     except Exception as e:
@@ -60,12 +71,29 @@ def main(
     # Process log: parsing, grouping, and mapping
     # Handle cases where parameters might be Ellipsis or OptionInfo
     if input is ...:
-        raise ValueError("Input file path is required")
+        typer.echo("Error: Input file path is required")
+        raise typer.Exit(1)
     if output is ...:
-        raise ValueError("Output directory is required")
-
-    input_path = input if isinstance(input, str) else str(input.default)
-    output_path = output if isinstance(output, str) else str(output.default)
+        typer.echo("Error: Output directory is required")
+        raise typer.Exit(1)
+        
+    # Process input path
+    if isinstance(input, str):
+        input_path = input
+    elif hasattr(input, "default") and input.default is not ...:
+        input_path = str(input.default)
+    else:
+        typer.echo("Error: Invalid input file path")
+        raise typer.Exit(1)
+        
+    # Process output path
+    if isinstance(output, str):
+        output_path = output
+    elif hasattr(output, "default") and output.default is not ...:
+        output_path = str(output.default)
+    else:
+        typer.echo("Error: Invalid output directory")
+        raise typer.Exit(1)
 
     events = parse_log_file(input_path)
     grouped_events = group_events(events, grouping_window=cfg["grouping_window"])
