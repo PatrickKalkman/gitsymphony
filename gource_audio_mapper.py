@@ -1,13 +1,16 @@
-import typer
 import json
 import logging
 from datetime import datetime
-from parser import parse_log_file
+
+import typer
+
+from audio_processing import process_audio
 from grouping import group_events
 from mapping import map_events
-from audio_processing import process_audio
+from parser import parse_log_file
 
 app = typer.Typer()
+
 
 def write_intermediate_log(data, filepath: str):
     with open(filepath, "w") as f:
@@ -19,18 +22,22 @@ def write_intermediate_log(data, filepath: str):
             f.write(line + "\n")
     logging.info("Intermediate log written: %s", filepath)
 
+
 @app.command()
 def main(
     input: str = typer.Option(..., help="Path to the Gource log file"),
     config: str = typer.Option(..., help="Path to the JSON configuration file"),
     output: str = typer.Option(..., help="Output directory for logs and WAV file"),
     verbose: bool = typer.Option(False, help="Enable detailed logging"),
-    dry_run: bool = typer.Option(False, help="Process log without writing output files")
+    dry_run: bool = typer.Option(
+        False, help="Process log without writing output files"
+    ),
 ):
     # Setup logging
     log_level = logging.DEBUG if verbose else logging.INFO
-    logging.basicConfig(level=log_level,
-                        format="%(asctime)s - %(levelname)s - %(message)s")
+    logging.basicConfig(
+        level=log_level, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
 
     # Load and validate configuration
     try:
@@ -40,7 +47,12 @@ def main(
         logging.error("Error reading configuration: %s", e)
         raise
 
-    for key in ["timeline_scaling_factor", "grouping_window", "sound_files_folder", "mapping_rules"]:
+    for key in [
+        "timeline_scaling_factor",
+        "grouping_window",
+        "sound_files_folder",
+        "mapping_rules",
+    ]:
         if key not in cfg:
             logging.error("Missing configuration key: %s", key)
             raise KeyError(f"Missing configuration key: {key}")
@@ -56,7 +68,9 @@ def main(
     mapping_log = f"{output}/{input.rsplit('/', 1)[-1]}_mapping_{timestamp}.log"
 
     write_intermediate_log(grouped_events, grouping_log)
-    write_intermediate_log(mapped_events, mapping_log)  # Use appropriate writer for mapping log
+    write_intermediate_log(
+        mapped_events, mapping_log
+    )  # Use appropriate writer for mapping log
 
     # Audio processing (only if not a dry run)
     if not dry_run:
@@ -65,8 +79,9 @@ def main(
             scaling_factor=cfg["timeline_scaling_factor"],
             sound_folder=cfg["sound_files_folder"],
             output=output,
-            input_basename=input.rsplit('/', 1)[-1]
+            input_basename=input.rsplit("/", 1)[-1],
         )
+
 
 if __name__ == "__main__":
     app()
