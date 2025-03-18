@@ -3,6 +3,7 @@
     "grouping_window": 5.0,
     "min_files": 4,
     "sound_files_folder": "sounds",
+    "target_audio_duration_seconds": 120,
     "mapping_rules": {
         "actions": [
             {

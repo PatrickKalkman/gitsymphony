@@ -11,6 +11,7 @@ def process_audio(
     sound_folder: str,
     output: str,
     input_basename: str,
+    target_duration_seconds: int = 60,
 ):
     """
     Create an audio track by placing sound clips at scaled timestamps.
@@ -40,9 +41,14 @@ def process_audio(
             duration_seconds = last_timestamp - first_timestamp
             logging.info(f"Total timeline duration: {duration_seconds} seconds")
             
-            # Calculate a dynamic scaling factor to keep audio length reasonable (target ~60 seconds)
-            target_duration_ms = 60000  # 60 seconds in milliseconds
+            # Calculate a dynamic scaling factor to keep audio length reasonable
+            target_duration_ms = target_duration_seconds * 1000
+            logging.info(f"Target audio duration: {target_duration_seconds} seconds")
             dynamic_scaling_factor = target_duration_ms / (duration_seconds * 1000)
+            
+            # Verify the calculation
+            logging.info(f"Duration in seconds: {duration_seconds}")
+            logging.info(f"Duration in days: {duration_seconds / (24*60*60):.2f}")
             
             # Use the smaller of the provided scaling factor or the dynamic one
             effective_scaling_factor = min(scaling_factor, dynamic_scaling_factor)
@@ -51,7 +57,7 @@ def process_audio(
             
             # Calculate the scaled duration in milliseconds
             scaled_duration_ms = duration_seconds * effective_scaling_factor * 1000
-            logging.info(f"Scaled audio duration: {scaled_duration_ms} ms")
+            logging.info(f"Scaled audio duration: {scaled_duration_ms:.2f} ms ({scaled_duration_ms/1000:.2f} seconds)")
             
             # Create a silent base audio track with appropriate length
             final_track = AudioSegment.silent(duration=scaled_duration_ms + 1000)  # extra buffer

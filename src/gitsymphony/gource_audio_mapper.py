@@ -73,12 +73,15 @@ def main():
 
         # Audio processing (only if not a dry run)
         if not dry_run:
+            # Get target duration from config or use default
+            target_duration = cfg.get("target_audio_duration_seconds", 60)
             process_audio(
                 mapped_events,
                 scaling_factor=cfg["timeline_scaling_factor"],
                 sound_folder=cfg["sound_files_folder"],
                 output=output,
                 input_basename=input.rsplit("/", 1)[-1],
+                target_duration_seconds=target_duration,
             )
 
 
