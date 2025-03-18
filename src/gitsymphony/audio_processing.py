@@ -22,6 +22,7 @@ def process_audio(
         output: Output directory for the final audio file
         input_basename: Base name of the input file for naming the output
     """
+    logging.info("Starting audio processing with %d mapped events", len(mapped_events))
     # Create a silent base audio track; length can be computed based on max scaled timestamp.
     max_time = (
         max(e["timestamp"] for e in mapped_events) * scaling_factor * 1000
