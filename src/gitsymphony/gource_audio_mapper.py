@@ -37,7 +37,7 @@ def main(
 
     # Load and validate configuration
     try:
-        with open(config, "r") as cfg_file:
+        with open(config.value, "r") as cfg_file:
             cfg = json.load(cfg_file)
     except Exception as e:
         logging.error("Error reading configuration: %s", e)
@@ -54,14 +54,14 @@ def main(
             raise KeyError(f"Missing configuration key: {key}")
 
     # Process log: parsing, grouping, and mapping
-    events = parse_log_file(input)
+    events = parse_log_file(input.value)
     grouped_events = group_events(events, grouping_window=cfg["grouping_window"])
     mapped_events = map_events(grouped_events, mapping_rules=cfg["mapping_rules"])
 
     # Write intermediate logs with naming based on input basename and current timestamp:
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    grouping_log = f"{output}/{input.rsplit('/', 1)[-1]}_grouping_{timestamp}.log"
-    mapping_log = f"{output}/{input.rsplit('/', 1)[-1]}_mapping_{timestamp}.log"
+    grouping_log = f"{output.value}/{input.value.rsplit('/', 1)[-1]}_grouping_{timestamp}.log"
+    mapping_log = f"{output.value}/{input.value.rsplit('/', 1)[-1]}_mapping_{timestamp}.log"
 
     write_intermediate_log(grouped_events, grouping_log)
     write_intermediate_log(mapped_events, mapping_log)  # Use appropriate writer for mapping log
@@ -72,8 +72,8 @@ def main(
             mapped_events,
             scaling_factor=cfg["timeline_scaling_factor"],
             sound_folder=cfg["sound_files_folder"],
-            output=output,
-            input_basename=input.rsplit("/", 1)[-1],
+            output=output.value,
+            input_basename=input.value.rsplit("/", 1)[-1],
         )
 
 
