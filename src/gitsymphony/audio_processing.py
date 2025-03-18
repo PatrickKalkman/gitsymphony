@@ -30,21 +30,22 @@ def process_audio(
         return
         
     # Normalize timestamps relative to the first event
-    if mapped_events:
-        first_timestamp = min(e["timestamp"] for e in mapped_events)
-        logging.info(f"Normalizing timestamps relative to first event at {first_timestamp}")
-        
-        # Calculate the total duration in seconds from first to last event
-        last_timestamp = max(e["timestamp"] for e in mapped_events)
-        duration_seconds = last_timestamp - first_timestamp
-        logging.info(f"Total timeline duration: {duration_seconds} seconds")
-        
-        # Calculate the scaled duration in milliseconds
-        scaled_duration_ms = duration_seconds * scaling_factor * 1000
-        logging.info(f"Scaled audio duration: {scaled_duration_ms} ms")
-        
-        # Create a silent base audio track with appropriate length
-        final_track = AudioSegment.silent(duration=scaled_duration_ms + 1000)  # extra buffer
+    try:
+        if mapped_events:
+            first_timestamp = min(e["timestamp"] for e in mapped_events)
+            logging.info(f"Normalizing timestamps relative to first event at {first_timestamp}")
+            
+            # Calculate the total duration in seconds from first to last event
+            last_timestamp = max(e["timestamp"] for e in mapped_events)
+            duration_seconds = last_timestamp - first_timestamp
+            logging.info(f"Total timeline duration: {duration_seconds} seconds")
+            
+            # Calculate the scaled duration in milliseconds
+            scaled_duration_ms = duration_seconds * scaling_factor * 1000
+            logging.info(f"Scaled audio duration: {scaled_duration_ms} ms")
+            
+            # Create a silent base audio track with appropriate length
+            final_track = AudioSegment.silent(duration=scaled_duration_ms + 1000)  # extra buffer
     except Exception as e:
         logging.error("Failed to create base audio track: %s", e)
         return
