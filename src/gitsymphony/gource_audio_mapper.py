@@ -59,7 +59,8 @@ def main():
 
         # Process log: parsing, grouping, and mapping
         events = parse_log_file(input)
-        grouped_events = group_events(events, grouping_window=cfg["grouping_window"])
+        min_files = cfg.get("min_files", 4)  # Default to 4 if not specified
+        grouped_events = group_events(events, grouping_window=cfg["grouping_window"], min_files=min_files)
         mapped_events = map_events(grouped_events, mapping_rules=cfg["mapping_rules"])
 
         # Write intermediate logs with naming based on input basename and current timestamp:
