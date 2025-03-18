@@ -72,10 +72,11 @@ def process_audio(
     error_count = 0
     
     for event in mapped_events:
-        # Calculate the placement time in milliseconds (scaled)
-        # Normalize the timestamp relative to the first event before scaling
+        # Calculate the placement time in milliseconds based on Gource timeline
         relative_timestamp = event["timestamp"] - first_timestamp
-        place_time = int(relative_timestamp * effective_scaling_factor * 1000)
+        # Convert to days, then to Gource seconds, then to milliseconds
+        relative_days = relative_timestamp / (24*60*60)
+        place_time = int(relative_days * seconds_per_day * 1000)
         sound_path = f"{sound_folder}/{event['sound_file']}"
         
         logging.debug("Processing event at time %d ms with sound file: %s", place_time, sound_path)
