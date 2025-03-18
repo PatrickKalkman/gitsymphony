@@ -63,7 +63,7 @@ def main(
         raise ValueError("Input file path is required")
     if output is ...:
         raise ValueError("Output directory is required")
-        
+
     input_path = input if isinstance(input, str) else str(input.default)
     output_path = output if isinstance(output, str) else str(output.default)
 
