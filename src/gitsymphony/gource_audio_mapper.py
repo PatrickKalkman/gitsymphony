@@ -37,8 +37,10 @@ def main(
 
     # Load and validate configuration
     try:
-        # Handle help case where config is an OptionInfo object
-        config_path = config if isinstance(config, str) else config.default
+        # Handle cases where config might be Ellipsis or OptionInfo
+        if config is ...:
+            raise ValueError("Configuration file path is required")
+        config_path = config if isinstance(config, str) else str(config.default)
         with open(config_path, "r") as cfg_file:
             cfg = json.load(cfg_file)
     except Exception as e:
@@ -56,9 +58,14 @@ def main(
             raise KeyError(f"Missing configuration key: {key}")
 
     # Process log: parsing, grouping, and mapping
-    # Handle help case where parameters are OptionInfo objects
-    input_path = input if isinstance(input, str) else input.default
-    output_path = output if isinstance(output, str) else output.default
+    # Handle cases where parameters might be Ellipsis or OptionInfo
+    if input is ...:
+        raise ValueError("Input file path is required")
+    if output is ...:
+        raise ValueError("Output directory is required")
+        
+    input_path = input if isinstance(input, str) else str(input.default)
+    output_path = output if isinstance(output, str) else str(output.default)
 
     events = parse_log_file(input_path)
     grouped_events = group_events(events, grouping_window=cfg["grouping_window"])
