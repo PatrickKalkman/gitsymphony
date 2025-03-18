@@ -1,0 +1,31 @@
+{
+    "timeline_scaling_factor": 1.0,
+    "grouping_window": 2.0,
+    "sound_files_folder": "sounds",
+    "mapping_rules": {
+        "users": [
+            {
+                "pattern": ".*dev.*",
+                "sound_file": "developer.wav"
+            },
+            {
+                "pattern": ".*admin.*", 
+                "sound_file": "admin.wav"
+            }
+        ],
+        "actions": [
+            {
+                "pattern": "A",
+                "sound_file": "add.wav"
+            },
+            {
+                "pattern": "M",
+                "sound_file": "modify.wav"
+            },
+            {
+                "pattern": "D",
+                "sound_file": "delete.wav"
+            }
+        ]
+    }
+}
