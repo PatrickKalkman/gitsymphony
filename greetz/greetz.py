@@ -51,6 +51,7 @@ class EnhancedDemoCredits:
         self.credit_fade = 0
         self.credit_y_offset = 0
         self.last_credit = -1  # Track last credit to detect transitions
+        self.current_wave = 0  # Store current wave value for text animation
 
         # Initialize effects
         self.particles = self.create_particles(200)
@@ -404,10 +405,25 @@ class EnhancedDemoCredits:
                 # Apply subtle wave effect
                 wave = sin(t * 5 + self.current_credit) * 10
                 text_surface = pygame.transform.rotate(text_surface, wave / 2)
+                # Store the wave value for later use
+                self.current_wave = wave
 
             # Credit animation
             alpha = min(255, self.credit_fade)
             text_surface.set_alpha(alpha)
+            
+            # Animate text color between light gray and white
+            color_pulse = 155 + int(100 * sin(self.time_passed * 5))  # Oscillates between 155 and 255
+            # Create a new surface with the animated color
+            if not text.startswith("---") and text != "GREETZ TO:" and not text.endswith("..."):
+                # Only apply to regular credits (not special ones that already have color effects)
+                new_surface = self.font.render(text, True, (color_pulse, color_pulse, color_pulse))
+                # Preserve the alpha and any rotation from the original surface
+                new_surface.set_alpha(alpha)
+                if hasattr(text_surface, "get_rect"):
+                    rect = text_surface.get_rect()
+                    text_surface = new_surface
+                    text_surface = pygame.transform.rotate(text_surface, self.current_wave / 2)  # Reapply the wave effect
 
             # Calculate y position with more dramatic bounce effect
             bounce = sin(self.credit_fade / 30) * 40 * (1 - self.credit_fade / 255)
