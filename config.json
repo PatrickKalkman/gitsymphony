@@ -4,6 +4,7 @@
     "sound_files_folder": "sounds",
     "target_audio_duration_seconds": 37,
     "seconds_per_day": 0.01,
+    "min_sound_gap_seconds": 2.0,
     "mapping_rules": {
         "actions": [
             {

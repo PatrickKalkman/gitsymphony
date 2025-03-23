@@ -59,8 +59,13 @@ def main():
         # Process log: parsing, grouping, and mapping
         events = parse_log_file(input)
         min_files = cfg.get("min_files", 4)  # Default to 4 if not specified
+        min_sound_gap = cfg.get("min_sound_gap_seconds", None)  # Get the minimum gap between sounds
         grouped_events = group_events(events, grouping_window=cfg["grouping_window"], min_files=min_files)
-        mapped_events = map_events(grouped_events, mapping_rules=cfg["mapping_rules"])
+        mapped_events = map_events(
+            grouped_events, 
+            mapping_rules=cfg["mapping_rules"],
+            min_sound_gap_seconds=min_sound_gap
+        )
 
         # Write intermediate logs with naming based on input basename and current timestamp:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
