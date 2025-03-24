@@ -2,10 +2,10 @@
 
 ![GitSymphony Demo](https://img.shields.io/badge/Demo-Scene%20Inspired-blueviolet)
 
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/gitsymphony)](https://github.com/yourusername/gitsymphony/stargazers)
-[![GitHub contributors](https://img.shields.io/github/contributors/yourusername/gitsymphony)](https://github.com/yourusername/gitsymphony/graphs/contributors)
-[![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/gitsymphony)](https://github.com/yourusername/gitsymphony)
-[![open issues](https://img.shields.io/github/issues/yourusername/gitsymphony)](https://github.com/yourusername/gitsymphony/issues)
+[![GitHub stars](https://img.shields.io/github/stars/PatrickKalkman/gitsymphony)](https://github.com/PatrickKalkman/gitsymphony/stargazers)
+[![GitHub contributors](https://img.shields.io/github/contributors/PatrickKalkman/gitsymphony)](https://github.com/PatrickKalkman/gitsymphony/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/PatrickKalkman/gitsymphony)](https://github.com/PatrickKalkman/gitsymphony)
+[![open issues](https://img.shields.io/github/issues/PatrickKalkman/gitsymphony)](https://github.com/PatrickKalkman/gitsymphony/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
 
@@ -48,7 +48,7 @@ GitSymphony consists of several components:
 
 1. **Clone & Navigate**:
 ```bash
-git clone https://github.com/yourusername/gitsymphony
+git clone https://github.com/PatrickKalkman/gitsymphony
 cd gitsymphony
 ```
 
