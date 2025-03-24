@@ -1,8 +1,8 @@
 {
     "grouping_window": 15.0,
-    "min_files": 30,
+    "min_files": 25,
     "sound_files_folder": "sounds",
-    "target_audio_duration_seconds": 37,
+    "target_audio_duration_seconds": 58,
     "seconds_per_day": 0.01,
     "min_sound_gap_seconds": 2.0,
     "mapping_rules": {

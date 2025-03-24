@@ -1,16 +1,97 @@
 gource -o ./pytorch.ppm --seconds-per-day 0.01 \
-       --max-files 5000 \
+       --max-files 7000 \
        --title "PyTorch" \
        --time-scale 1 \
        --font-size 25 \
-       --hide filenames \
+       --hide filenames,users,dirnames \
        --disable-auto-skip \
        --multi-sampling \
        --1280x720 \
        --output-framerate 25 \
+       --bloom-intensity 0.3 \
        --filename-time 2 \
+       --background 000000 \
+       --font-colour 555555 \
+       . 
+
+gource -o ./tensorflow.ppm --seconds-per-day 0.01 \
+       --max-files 7000 \
+       --title "Tensorflow" \
+       --time-scale 1 \
+       --font-size 25 \
+       --output-custom-log ./tensorflow.log \
+       --hide filenames,users,dirnames \
+       --disable-auto-skip \
+       --multi-sampling \
+       --1280x720 \
+       --output-framerate 25 \
+       --bloom-intensity 0.3 \
+       --filename-time 2 \
+       --background 000000 \
+       --font-colour 555555 \
        --fullscreen \
        . 
+
+gource -o ./langchain.ppm --seconds-per-day 0.05 \
+       --max-files 7000 \
+       --title "Langchain" \
+       --time-scale 1 \
+       --font-size 25 \
+       --hide filenames,users,dirnames \
+       --output-custom-log ./langchain.log \
+       --disable-auto-skip \
+       --multi-sampling \
+       --1280x720 \
+       --output-framerate 25 \
+       --bloom-intensity 0.3 \
+       --filename-time 2 \
+       --background 000000 \
+       --font-colour 555555 \
+       --fullscreen \
+       . 
+
+gource -o ./transformers.ppm --seconds-per-day 0.01 \
+       --max-files 10000 \
+       --title "" \
+       --time-scale 1 \
+       --font-size 25 \
+       --hide filenames,users,dirnames,date \
+       --disable-auto-skip \
+       --multi-sampling \
+       --1920x1080 \
+       --output-framerate 25 \
+       --bloom-intensity 0.4 \
+       --filename-time 2 \
+       --background 000000 \
+       --font-colour 555555 \
+       --fullscreen \
+       .        
+
+gource -o ./scikit-learn.ppm --seconds-per-day 0.01 \
+       --max-files 7000 \
+       --title "Scikit-learn" \
+       --time-scale 1 \
+       --font-size 25 \
+       --hide filenames,users,dirnames \
+       --output-custom-log ./scikit-learn.log \
+       --disable-auto-skip \
+       --multi-sampling \
+       --1280x720 \
+       --output-framerate 25 \
+       --bloom-intensity 0.3 \
+       --filename-time 2 \
+       --background 000000 \
+       --font-colour 555555 \
+       --fullscreen \
+       .      
+
+       --output-custom-log ./tensorflow.log \
+
+
+--output-custom-log ./tensorflow.log \
+
+--user-font-size 12 --font-colour 555555 --bloom-intensity 0.1
+
 
 gource --seconds-per-day 0.01 \
        --auto-skip-seconds 4 \

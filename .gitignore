@@ -175,3 +175,10 @@ cython_debug/
 .aider*
 Specs
 .DS_Store
+completed_movies
+gource_logs
+Music
+output
+sounds
+.DS_Store
+.DS_Store
