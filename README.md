@@ -54,7 +54,7 @@ cd gitsymphony
 
 2. **Install Dependencies**:
 ```bash
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 3. **Install Gource and FFmpeg** (if not already installed):
@@ -70,14 +70,14 @@ sudo apt-get install gource ffmpeg
 
 ```bash
 # Process a Git repository and generate visualization with audio
-python -m src.gitsymphony.gource_audio_mapper process \
+uv run -m src.gitsymphony.gource_audio_mapper process \
   --input /path/to/repo/.git/logs/HEAD \
   --config config.json \
   --output ./output \
   --verbose
 
 # Just generate the audio from an existing Gource log
-python -m src.gitsymphony.gource_audio_mapper process \
+uv run -m src.gitsymphony.gource_audio_mapper process \
   --input gource.log \
   --config config.json \
   --output ./output \
