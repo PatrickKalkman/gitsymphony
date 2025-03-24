@@ -26,7 +26,7 @@ def write_intermediate_log(data, filepath: str):
 def main():
     """Process a Gource log file and generate audio based on git events."""
     app_inner = typer.Typer()
-    
+
     @app_inner.command()
     def process(
         input: str = typer.Argument(..., help="Path to the Gource log file"),
@@ -62,9 +62,7 @@ def main():
         min_sound_gap = cfg.get("min_sound_gap_seconds", None)  # Get the minimum gap between sounds
         grouped_events = group_events(events, grouping_window=cfg["grouping_window"], min_files=min_files)
         mapped_events = map_events(
-            grouped_events, 
-            mapping_rules=cfg["mapping_rules"],
-            min_sound_gap_seconds=min_sound_gap
+            grouped_events, mapping_rules=cfg["mapping_rules"], min_sound_gap_seconds=min_sound_gap
         )
 
         # Write intermediate logs with naming based on input basename and current timestamp:
@@ -89,8 +87,8 @@ def main():
                 seconds_per_day=seconds_per_day,
             )
 
-
     return app_inner()
+
 
 if __name__ == "__main__":
     main()

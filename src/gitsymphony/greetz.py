@@ -71,7 +71,7 @@ class EnhancedDemoCredits:
             self.title_font = pygame.font.Font(None, 80)
             self.font = pygame.font.Font(None, 64)
             self.small_font = pygame.font.Font(None, 32)
-        except:
+        except pygame.error:
             print("Font loading failed, using default")
             self.title_font = pygame.font.SysFont("arial", 80)
             self.font = pygame.font.SysFont("arial", 64)
@@ -342,8 +342,6 @@ class EnhancedDemoCredits:
 
             # Add trail for some particles
             if p["trail"] and p["lifetime"] > 0.3:
-                trail_x = px - int(p["dx"] * 5)
-                trail_y = py - int(p["dy"] * 5)
                 for i in range(3):
                     trail_alpha = alpha // (i + 2)
                     trail_color = (color[0], color[1], color[2], trail_alpha)
@@ -411,7 +409,7 @@ class EnhancedDemoCredits:
             # Credit animation
             alpha = min(255, self.credit_fade)
             text_surface.set_alpha(alpha)
-            
+
             # Animate text color between light gray and white
             color_pulse = 155 + int(100 * sin(self.time_passed * 5))  # Oscillates between 155 and 255
             # Create a new surface with the animated color
@@ -421,9 +419,10 @@ class EnhancedDemoCredits:
                 # Preserve the alpha and any rotation from the original surface
                 new_surface.set_alpha(alpha)
                 if hasattr(text_surface, "get_rect"):
-                    rect = text_surface.get_rect()
                     text_surface = new_surface
-                    text_surface = pygame.transform.rotate(text_surface, self.current_wave / 2)  # Reapply the wave effect
+                    text_surface = pygame.transform.rotate(
+                        text_surface, self.current_wave / 2
+                    )  # Reapply the wave effect
 
             # Calculate y position with more dramatic bounce effect
             bounce = sin(self.credit_fade / 30) * 40 * (1 - self.credit_fade / 255)
