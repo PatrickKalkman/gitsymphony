@@ -125,6 +125,8 @@ GitSymphony has been used to visualize the evolution of major AI frameworks:
 - **Hugging Face Transformers**: A shimmering web of collaboration since 2018
 - **Scikit-learn**: The foundation of machine learning in Python since 2010
 
+Check out [this Medium article](https://medium.com/generative-ai/watch-5-ai-frameworks-evolve-a-stunning-visual-history-7e7268766a82) for more context and to see videos of these visualizations in action.
+
 ## 🛠️ Extending GitSymphony
 
 You can extend GitSymphony by:
